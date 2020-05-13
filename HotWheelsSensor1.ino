@@ -1,8 +1,10 @@
 //Processing serial code with traffic light start..
 //Two sensors on Arduino, two tracks. First sensor triggered indicates winner
 //Processing App detects serial from winning sensor and Checkered flag ensues, also "Winner, lane one!" or whatever
-//some way to reset (two way communication?)
+//some way to reset (inByte?)
 //start over!
+//also need SPEED mode option trigger from Processing App. 
+//then make WiFi version for Android
 
 const int ledPin = 2;
 const int ledPin2 = 3;
@@ -14,7 +16,7 @@ long previousMillis = 0;
 long previousMillis2 = 0;
 
 int inByte = 0;
-boolean ready = false;
+boolean ready = true; //need to start ready because processing resets Arduino!
 
 void setup() {
   Serial.begin(115200);
@@ -25,11 +27,12 @@ void setup() {
   pinMode(ledPin2, OUTPUT);
   digitalWrite(ledPin, HIGH);
   digitalWrite(ledPin2, HIGH);
-
+byte outByte = 0;
 
 }
 
 void loop() {
+//  Serial.print("0");
   if (Serial.available() > 0) {
     // get incoming byte:
     inByte = Serial.read();
@@ -42,24 +45,24 @@ void loop() {
 //      Serial.println(ldrStatus); //testing
 
   if (ldrStatus < 12) {
-//    if (millis() - previousMillis > 100) {
-      Serial.println("lane ONE! "); // one or two, not both
+    if (millis() - previousMillis > 100) {
+      Serial.print("0"); // one or two, not both
 //      Serial.println(num++);
 //      Serial.println(millis() - previousMillis); //time from one lap to next!
-//      currentMillis = millis();
-//    }
-//    previousMillis = millis();
+      currentMillis = millis();
+    }
+    previousMillis = millis();
     ready = false; //reset
   }
 //Serial.println(ldrStatus2); //testing
   if (ldrStatus2 < 17) {
-//    if (millis() - previousMillis2 > 100) {
-      Serial.println("lane TWO! "); //one or two, not both
+    if (millis() - previousMillis > 100) {
+      Serial.print("1"); //one or two, not both
 //      Serial.println(num++);
 //      Serial.print("TOTAL TIME: ");
 //      Serial.println(millis() - currentMillis);
-//    }
-//    previousMillis2 = millis();
+    }
+    previousMillis = millis();
     ready = false; //reset
   }
   }
