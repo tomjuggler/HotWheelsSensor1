@@ -42,9 +42,11 @@ void loop() {
   if(ready){
   int ldrStatus = analogRead(ldrPin);
   int ldrStatus2 = analogRead(ldrPin2);
-//      Serial.println(ldrStatus); //testing
+//     Serial.print(ldrStatus); //testing
+//     Serial.print("      .......     ");
+//     Serial.println(ldrStatus2); //testing
 
-  if (ldrStatus < 12) {
+  if (ldrStatus < 7) {
     if (millis() - previousMillis > 100) {
       Serial.print("0"); // one or two, not both
 //      Serial.println(num++);
@@ -55,7 +57,7 @@ void loop() {
     ready = false; //reset
   }
 //Serial.println(ldrStatus2); //testing
-  if (ldrStatus2 < 17) {
+  if (ldrStatus2 < 7) {
     if (millis() - previousMillis > 100) {
       Serial.print("1"); //one or two, not both
 //      Serial.println(num++);
